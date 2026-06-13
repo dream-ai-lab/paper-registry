@@ -1,0 +1,20 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# A survey member's PR (a new/changed eval_spec.yaml) is validated against the
+# pinned standard before merge — pinned dataset+model, known metrics, fields.
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install the standard (pinned)
+        run: pip install "git+https://github.com/dream-ai-lab/eval-lib@v0.1.0"
+      - name: Validate every spec
+        run: python validate.py
