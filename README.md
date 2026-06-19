@@ -38,9 +38,16 @@ Two different "musts" — don't confuse them:
 | Paper is reproduced by more than one person | Quick personal / throwaway experiment |
 | A result will become a **baseline** others compare to | Still iterating; register once it stabilises |
 | You want it discoverable + reviewed | Private exploration |
+| Every metric is **standard** (lives in `eval-lib`) | Uses an **experimental** metric (`metrics.experimental`) |
 
 Rule of thumb: **register before a result becomes a baseline.** Never let two
 divergent specs exist for the same `paper_id`.
+
+A spec that declares `metrics.experimental` is by definition not yet canonical —
+its metric lives in the experiment, not `eval-lib`, and its runs are tagged
+`eval_tier=experimental`. `validate.py` **rejects** such specs here. Promote the
+metric into `eval-lib` first (bump its version, drop the name from
+`experimental`), then register the now-standard spec.
 
 ## Avoiding spec drift
 
